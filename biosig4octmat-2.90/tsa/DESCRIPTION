@@ -1,0 +1,11 @@
+Name: TSA
+Version: 4.2.7
+Date: 2013-01-10
+Author: Alois Schloegl <alois.schloegl@gmail.com>
+Maintainer: Alois Schloegl <alois.schloegl@gmail.com>
+Title: Time Series Analysis Toolbox 
+Description: Stochastic concepts and maximum entropy methods for time series analysis
+Depends: octave (>= 2.9.7) 
+Depends: NaN (>= 1.0.0)
+License: GPLv3+
+Url: http://www.ist.ac.at/~schloegl/matlab/tsa
