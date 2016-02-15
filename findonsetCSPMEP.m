@@ -4,15 +4,15 @@ function [find_25ms_points,Onsets_CSP_option_A,Onsets_CSP_option_B] = findonsetC
 % See also automatic_csp_determination, findoffsetCSP, PSDframetemplate, PSDframesallwindows
 %
 % Copyright: This is published under NeuroCure Clinical Center (NCRC),
-% Cluster of Excellence NeuroCure of the Charité – Universitätsmedizin Berlin., 
+% Cluster of Excellence NeuroCure of the Charité – Universitätsmedizin Berlin, 
 % Charitéplatz 1, 10117 Berlin
 % All rights reserved.
 % All copyright for the following code are owned in full by the Cluster of 
 % Excellence NeuroCure of the Charité – Universitätsmedizin Berlin.
 % Permission is granted to download, share and use this software as long as any
 % publications made in which this software was used for any purpose reference 
-% the corresponding article of this software: "The cSPider 1.0 - An open-source 
-% automatic tool to analyze" etc.
+% the corresponding article of this software: "cSPider – Evaluation of a free 
+% and open-source automated tool to analyze corticomotor silent period" etc.
 
 if wx==1
 find_25ms_points=(LOCS(1,j)+0.025*fs)/fs;

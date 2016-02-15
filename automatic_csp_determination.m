@@ -1,6 +1,6 @@
 function [Onsets_CSP2,Offsets_CSP2,MEP_durations,Peak2peak2] = automatic_csp_determination(j,rMT,wx,x,xy,y,yz,z,s,fs);
 % This function finds the CSP onsets and offsets for a given TMS measurement trial
-% (i.e. at least 10 experiments) measured under the normal CSP measurment 
+% (i.e. at least 10 experiments) measured under the normal CSP measurement 
 % window length or number of datapoints. Times of CSP pulses are defined in
 % 'timing_csp_pulses.txt' for a full measurement (4 times 10 pulses) and 
 % 'timing_csp_pulses_1trial.txt' for 1 trial (1 time 10 pulses)
@@ -9,25 +9,25 @@ function [Onsets_CSP2,Offsets_CSP2,MEP_durations,Peak2peak2] = automatic_csp_det
 % Call this function always with the following inputs:
 %
 % templ: window of which we'll choose a template (and examples) from. NB: with 
-% only frame, maximum templ can be 10!
+% only 1 run, maximum templ can be 10!
 %
-% rMT: choose rMT=1,2,3 or 4 when only 1 frame (10 pulses) is measured, for 
-% respectively strength TMS 110%, 120%, 130% 140% rMT, choose rMT=0 for 
-% all frames included.
+% rMT: choose rMT=1,2,3 or 4 when only 1 run (10 CSPs) is measured, for 
+% respectively the strength TMS 110%, 120%, 130% 140% rMT. Choose rMT=0 for 
+% all (4) runs included
 %
-% wx: choose wx=1 to only analyze only chosen template, in which the CSP offset 
-% is chosen manually and results are in the command window
+% wx: choose wx=1 to only analyze chosen template, in which the CSP offset is 
+% chosen manually and results are in the command window
 %
 % x: choose x=1 if, for any reason, a shorter window is preferred (standard: x=0)
 %
 % xy: choose xy=1 if a visual check of all windows is desired, only possible for all 
-% frames (plots all windows behind each other plus on- and offsets) 
+% (4) runs (plots all windows behind each other plus on- and offsets) 
 %
 % y: choose y=0 for 1st option onset (real start) or y=1 for 2nd (minimum around
 % 25 ms after TMS artefact)
 %
-% yz: choose yz=0 for MEP offset finder with filtered signal + peakseek or yz=1 
-% for MEP offset finder with spectrograms + matched filter, or yz=2 for fixed MEP 
+% yz: choose yz=0 for MEP offset finder with filtered signal + peakseek, yz=1 for 
+% MEP offset finder with spectrograms + matched filter, or yz=2 for fixed MEP 
 % duration (from found onset) of 0.025 ms (standard)
 %
 % z: give a row with failed (pulse) numbers of the data in the CSP-measurement. 
@@ -39,15 +39,15 @@ function [Onsets_CSP2,Offsets_CSP2,MEP_durations,Peak2peak2] = automatic_csp_det
 % See also findoffsetCSP, findonsetCSPMEP, PSDframetemplate, PSDframesallwindows
 %
 % Copyright: This is published under NeuroCure Clinical Center (NCRC),
-% Cluster of Excellence NeuroCure of the Charité – Universitätsmedizin Berlin., 
+% Cluster of Excellence NeuroCure of the Charité – Universitätsmedizin Berlin, 
 % Charitéplatz 1, 10117 Berlin
 % All rights reserved.
 % All copyright for the following code are owned in full by the Cluster of 
 % Excellence NeuroCure of the Charité – Universitätsmedizin Berlin.
 % Permission is granted to download, share and use this software as long as any
 % publications made in which this software was used for any purpose reference 
-% the corresponding article of this software: "The cSPider 1.0 - An open-source 
-% automatic tool to analyze" etc.
+% the corresponding article of this software: "cSPider – Evaluation of a free 
+% and open-source automated tool to analyze corticomotor silent period" etc.
 
 t=(1:length(s))/fs;
 
@@ -536,6 +536,7 @@ t_example2=t_example1*fs;
 t_example2=round(t_example2');
 s_example=s(t_example2);
 
+if xy==0
 figure();
 plot(t_example1,s_example)
 ylim([-1.25 1.25])
@@ -547,6 +548,7 @@ xlabel('Time (s)');
 ylabel('Amplitude (mV)');
 hold on
 plot(Onsets_CSP(:,i)*ones(size(s)),s,'red','Linewidth',1)
+end
 
 
 %% Building tresholds for prevention of failures (i.e. wrong/no offsets CSPs)
@@ -712,6 +714,41 @@ end
 
 
 %% plot found MEP onset, CSP onset and offset
+if xy==1 && length(Offsets_CSP2)==10
+for i=1:10;
+t_example1=t_windows(:,i);
+t_example2=t_example1*fs;
+t_example2=round(t_example2');
+s_example=s(t_example2);
+
+figure();
+plot(t_example1,s_example)
+hold on
+plot(Offsets_CSP2(:,i)*ones(size(s)),s,'red','Linewidth',1)
+ylim([-1.25 1.25])
+xlim([t_windows(1,i) t_windows(end,i)])
+title('Example windowed signal + found CSP onset and offset','Fontweight','bold');
+xlabel('Time (s)');
+ylabel('Amplitude (mV)');
+if bad_intervals==0
+    % nothing
+else
+for j=bad_intervals
+    Onsets_CSP2(:,j)=NaN;
+    Offsets_CSP2(:,j)=NaN;
+end
+end
+if Offsets_CSP2(:,i)==NaN
+    %nothing
+else
+hold on
+plot(end_MEP(:,i)*ones(size(s)),s,'red','Linewidth',1)
+hold on
+plot(Onsets_CSP2(:,i)*ones(size(s)),s,'red','Linewidth',1)
+end
+end
+end
+
 if xy==1 && length(Offsets_CSP2)==40
 for i=1:40;
 t_example1=t_windows(:,i);

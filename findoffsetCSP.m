@@ -4,16 +4,15 @@ function [Offsets_CSP] = findoffsetCSP(t_windows,t_search_windows,s,Start_point_
 % See also automatic_csp_determination, findonsetCSPMEP, PSDframetemplate, PSDframesallwindows
 %
 % Copyright: This is published under NeuroCure Clinical Center (NCRC),
-% Cluster of Excellence NeuroCure of the Charité – Universitätsmedizin Berlin., 
+% Cluster of Excellence NeuroCure of the Charité – Universitätsmedizin Berlin, 
 % Charitéplatz 1, 10117 Berlin
 % All rights reserved.
 % All copyright for the following code are owned in full by the Cluster of 
 % Excellence NeuroCure of the Charité – Universitätsmedizin Berlin.
 % Permission is granted to download, share and use this software as long as any
 % publications made in which this software was used for any purpose reference 
-% the corresponding article of this software: "The cSPider 1.0 - An open-source 
-% automatic tool to analyze" etc.
-
+% the corresponding article of this software: "cSPider – Evaluation of a free 
+% and open-source automated tool to analyze corticomotor silent period" etc.
 N=3;
 cf=0.1;
 [B,A]=butter(N,cf,'high');

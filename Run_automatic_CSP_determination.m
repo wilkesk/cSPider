@@ -1,18 +1,30 @@
 %% Run_automatic_CSP_determination
-% type in 'help automatic_csp_determination' for an overview of the
-% possible methods of analysis
 clear all;clc;close all;
 
-
-%% Give methods of analysis
-templ=4;    
-rMT=0; 
+% When using the GUI, use the following code (and clicking Run above):
+end_of_GUI=0;
+while end_of_GUI==0
+end_of_GUI=0;
+GUI_cSPider
+end
+close all;
+end_of_GUI=0;
 wx=0;
 x=0;
-xy=1;
 y=0;
-yz=1;
-z=[0];
+z=0;
+
+% Or use (uncomment) the code below instead of GUI for using cSPider 
+% without the GUI. Using this, type 'help automatic_csp_determination' 
+% in the Command Window below.
+% %% Give methods of analysis:
+% templ=4;
+% rMT=0; 
+% x=0;
+% xy=1;
+% y=0;
+% yz=1;
+% z=[0];
 
             
 %% Load signal
